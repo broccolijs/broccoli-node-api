@@ -5,9 +5,14 @@ TypeScript types for the [Broccoli Node Api](https://github.com/broccolijs/brocc
 - [`broccoli-node-api`](#broccoli-node-api)
   - [Exports](#exports)
     - [Node](#node)
+    - [NodeCommon](#nodecommon)
+    - [NodeMap](#nodemap)
+    - [TransformNode](#transformnode)
+    - [SourceNode](#sourcenode)
     - [FeatureSet](#featureset)
     - [NodeInfo](#nodeinfo)
     - [NodeType](#nodetype)
+    - [NodeInfoMap](#nodeinfomap)
     - [NodeInfoCommon](#nodeinfocommon)
     - [TransformNodeInfo](#transformnodeinfo)
     - [CallbackObject](#callbackobject)
@@ -18,13 +23,48 @@ TypeScript types for the [Broccoli Node Api](https://github.com/broccolijs/brocc
 ### Node
 
 ```ts
-interface Node {
-  __broccoliFeatures__: FeatureSet;
-  __broccoliGetInfo__: (builderFeatures: FeatureSet) => NodeInfo;
-}
+type Node = TransformNode | SourceNode;
 ```
 
 [Node Documentation](https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md#part-2-node-api-specification)
+
+---
+
+### NodeCommon
+
+```ts
+interface NodeCommon<T extends NodeInfo> {
+  __broccoliFeatures__: FeatureSet;
+  __broccoliGetInfo__: (builderFeatures: FeatureSet) => T;
+}
+```
+
+---
+
+### NodeMap
+
+```ts
+interface NodeMap = {
+  transform: TransformNode;
+  source: SourceNode;
+};
+```
+
+---
+
+### TransformNode
+
+```ts
+interface TransformNode extends NodeCommon<TransformNodeInfo> {}
+```
+
+---
+
+### SourceNode
+
+```ts
+interface SourceNode extends NodeCommon<SourceNodeInfo> {}
+```
 
 ---
 
@@ -41,7 +81,7 @@ interface FeatureSet {
 ### NodeInfo
 
 ```ts
-type NodeInfo = SourceNodeInfo | TransformNodeInfo;
+type NodeInfo = TransformNodeInfo | SourceNodeInfo;
 ```
 
 [NodeInfo Documentation](https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md#the-nodeinfo-object)
@@ -51,7 +91,18 @@ type NodeInfo = SourceNodeInfo | TransformNodeInfo;
 ### NodeType
 
 ```ts
-type NodeType = "source" | "transform";
+type NodeType = "transform" | "source";
+```
+
+---
+
+### NodeInfoMap
+
+```ts
+interface NodeInfoMap = {
+  transform: TransformNodeInfo;
+  source: SourceNodeInfo;
+};
 ```
 
 ---
@@ -74,7 +125,10 @@ interface NodeInfoCommon<T extends NodeType> {
 ```ts
 interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
   inputNodes: Node[];
-  setup(inputPaths: string[], outputPath: string, cachePath: string): void;
+  setup(
+    features: FeatureSet,
+    options: { inputPaths: string[]; outputPath: string; cachePath: string }
+  ): void;
   getCallbackObject(): CallbackObject;
   persistentOutput: boolean;
   needsCache: boolean;

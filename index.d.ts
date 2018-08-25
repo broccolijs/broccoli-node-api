@@ -14,12 +14,22 @@ export interface FeatureSet {
   [feature: string]: boolean | undefined;
 }
 
+export type Node = NodeMap[NodeType];
+
+export interface TransformNode extends NodeCommon<TransformNodeInfo> {}
+export interface SourceNode extends NodeCommon<SourceNodeInfo> {}
+
+export interface NodeMap {
+  transform: TransformNode;
+  source: SourceNode;
+}
+
 /**
   The Broccoli Node API
 
   https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md#part-2-node-api-specification
  */
-export interface Node {
+export interface NodeCommon<T extends NodeInfo> {
   /**
     The node's feature set, indicating the API version
    */
@@ -29,19 +39,24 @@ export interface Node {
     A function to be called by the Builder, taking the Builder's feature set as
     an argument and returning a `NodeInfo` object
    */
-  __broccoliGetInfo__: (builderFeatures: FeatureSet) => NodeInfo;
+  __broccoliGetInfo__: (builderFeatures: FeatureSet) => T;
 }
 
 /**
   Either a `'transform'` or `'source'` `NodeInfo` object.
   https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md#the-nodeinfo-object
  */
-export type NodeInfo = SourceNodeInfo | TransformNodeInfo;
+export type NodeInfo = NodeInfoMap[NodeType];
+
+export interface NodeInfoMap {
+  source: SourceNodeInfo;
+  transform: TransformNodeInfo;
+}
 
 /**
   Either `'transform'` or `'source'`, indicating the node type.
   */
-export type NodeType = NodeInfo["nodeType"];
+export type NodeType = keyof NodeInfoMap;
 
 /**
   [Transform Nodes](https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md#transform-nodes)
@@ -62,11 +77,12 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
     function will not be called more than once throughout the lifetime of the
     node.
 
-    @param inputPaths An array of paths corresponding to `NodeInfo.inputNodes`. When building,
+    @param features builder features
+    @param options.inputPaths An array of paths corresponding to `NodeInfo.inputNodes`. When building,
                       the node may read from these paths, but must never write to them.
-    @param outputPath A path to an empty directory for the node to write its output to when
+    @param options.outputPath A path to an empty directory for the node to write its output to when
                       building.
-    @param cachePath A path to an empty directory for the node to store files it wants to
+    @param options.cachePath A path to an empty directory for the node to store files it wants to
                      keep around between builds. This directory will only be deleted when the
                      Broccoli process terminates (for example, when the Broccoli server is
                      restarted).
@@ -74,7 +90,10 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
                      If a `cachePath` is not needed/desired, a plugin can opt-out of its creation
                      via the `needsCache` flag metioned below.
    */
-  setup(inputPaths: string[], outputPath: string, cachePath: string): void;
+  setup(
+    features: FeatureSet,
+    options: { inputPaths: string[]; outputPath: string; cachePath: string }
+  ): void;
 
   /**
     The Builder will call this function once after it has called `setup`. This
