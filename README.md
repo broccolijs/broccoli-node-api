@@ -5,6 +5,7 @@ TypeScript types for the [Broccoli Node Api](https://github.com/broccolijs/brocc
 - [`broccoli-node-api`](#broccoli-node-api)
   - [Exports](#exports)
     - [Node](#node)
+    - [InputNode](#inputnode)
     - [NodeCommon](#nodecommon)
     - [NodeMap](#nodemap)
     - [TransformNode](#transformnode)
@@ -27,6 +28,14 @@ type Node = TransformNode | SourceNode;
 ```
 
 [Node Documentation](https://github.com/broccolijs/broccoli/blob/master/docs/node-api.md#part-2-node-api-specification)
+
+---
+
+### InputNode
+
+```ts
+type InputNode = Node | string;
+```
 
 ---
 

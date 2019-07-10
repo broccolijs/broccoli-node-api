@@ -189,3 +189,5 @@ export interface NodeInfoCommon<T extends NodeType> {
 export interface CallbackObject {
   build(): Promise<void>;
 }
+
+export type InputNode = Node | string;
