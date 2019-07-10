@@ -30,6 +30,14 @@ type Node = TransformNode | SourceNode;
 
 ---
 
+### InputNode
+
+```ts
+type InputNode = Node | string;
+```
+
+---
+
 ### NodeCommon
 
 ```ts
