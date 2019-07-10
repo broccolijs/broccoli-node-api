@@ -190,4 +190,4 @@ export interface CallbackObject {
   build(): Promise<void>;
 }
 
-export type InputNodes = Node | string;
+export type InputNode = Node | string;
