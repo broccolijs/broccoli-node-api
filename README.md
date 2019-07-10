@@ -5,7 +5,7 @@ TypeScript types for the [Broccoli Node Api](https://github.com/broccolijs/brocc
 - [`broccoli-node-api`](#broccoli-node-api)
   - [Exports](#exports)
     - [Node](#node)
-    - [NodeInput](#nodeinput)
+    - [InputNode](#inputnode)
     - [NodeCommon](#nodecommon)
     - [NodeMap](#nodemap)
     - [TransformNode](#transformnode)
