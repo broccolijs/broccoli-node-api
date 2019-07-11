@@ -92,7 +92,7 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
    */
   setup(
     features: FeatureSet,
-    options: { inputPaths: string[]; outputPath: string; cachePath: string }
+    options: { inputPaths: string[]; outputPath: string; cachePath?: string }
   ): void;
 
   /**
