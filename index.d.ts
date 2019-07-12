@@ -70,7 +70,7 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
   /**
     Zero or more Broccoli nodes to be used as input to this node.
    */
-  inputNodes: Node[];
+  inputNodes: InputNode[];
 
   /**
     The `Builder` will call this function once before the first build. This
