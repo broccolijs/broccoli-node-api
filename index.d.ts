@@ -129,6 +129,12 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
     will be created and its path will be available as this.cachePath.
    */
   needsCache: boolean;
+  
+  /**
+   If true, memoization will not be applied and the build method will always be 
+   called regardless if the inputNodes have changed. Defaults to false.
+  */
+  volatile: boolean;
 }
 
 /**
