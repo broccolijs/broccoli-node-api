@@ -141,6 +141,7 @@ interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
   getCallbackObject(): CallbackObject;
   persistentOutput: boolean;
   needsCache: boolean;
+  volatile: boolean;
 }
 ```
 
