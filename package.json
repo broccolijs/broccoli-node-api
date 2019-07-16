@@ -1,6 +1,6 @@
 {
   "name": "broccoli-node-api",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Broccoli Plugin API Types",
   "repository": "github:broccolijs/broccoli-node-api",
   "license": "MIT",
