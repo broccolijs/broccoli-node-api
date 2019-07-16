@@ -193,7 +193,7 @@ export interface NodeInfoCommon<T extends NodeType> {
   The `build` function is responsible for performing the node's main work.
  */
 export interface CallbackObject {
-  build(): Promise<void>;
+  build(): Promise<void> | void;
 }
 
 export type InputNode = Node | string;
