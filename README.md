@@ -153,7 +153,7 @@ interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
 
 ```ts
 interface CallbackObject {
-  build(): Promise<void>;
+  build(): Promise<void> | void;
 }
 ```
 
