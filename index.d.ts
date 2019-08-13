@@ -135,6 +135,12 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
    called regardless if the inputNodes have changed. Defaults to false.
   */
   volatile: boolean;
+  
+ /**
+   If true, a change object will be passed to the build method which contains
+   information about which input has changed since the last build. Defaults to false.
+  */
+  trackInputChanges: boolean;
 }
 
 /**
