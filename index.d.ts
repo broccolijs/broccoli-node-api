@@ -201,6 +201,8 @@ export interface NodeInfoCommon<T extends NodeType> {
 
 /**
   The `build` function is responsible for performing the node's main work.
+
+  BuildChangeObject is only passed if trackInputChanges is true.
  */
 export interface CallbackObject {
   build(buildChangeObject?: BuildChangeObject): Promise<void> | void;
