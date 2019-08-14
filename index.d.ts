@@ -24,6 +24,10 @@ export interface NodeMap {
   source: SourceNode;
 }
 
+export interface BuildChangeObject {
+  changedNodes: boolean[];
+}
+
 /**
   The Broccoli Node API
 
@@ -135,6 +139,12 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
    called regardless if the inputNodes have changed. Defaults to false.
   */
   volatile: boolean;
+  
+ /**
+   If true, a change object will be passed to the build method which contains
+   information about which input has changed since the last build. Defaults to false.
+  */
+  trackInputChanges: boolean;
 }
 
 /**
@@ -191,9 +201,11 @@ export interface NodeInfoCommon<T extends NodeType> {
 
 /**
   The `build` function is responsible for performing the node's main work.
+
+  BuildChangeObject is only passed if trackInputChanges is true.
  */
 export interface CallbackObject {
-  build(): Promise<void> | void;
+  build(buildChangeObject?: BuildChangeObject): Promise<void> | void;
 }
 
 export type InputNode = Node | string;
