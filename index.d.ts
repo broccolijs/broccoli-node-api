@@ -24,6 +24,10 @@ export interface NodeMap {
   source: SourceNode;
 }
 
+export interface BuildChangeObject {
+  changedNodes: boolean[];
+}
+
 /**
   The Broccoli Node API
 
@@ -199,7 +203,7 @@ export interface NodeInfoCommon<T extends NodeType> {
   The `build` function is responsible for performing the node's main work.
  */
 export interface CallbackObject {
-  build(): Promise<void> | void;
+  build(buildChangeObject?: BuildChangeObject): Promise<void> | void;
 }
 
 export type InputNode = Node | string;

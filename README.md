@@ -142,6 +142,7 @@ interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
   persistentOutput: boolean;
   needsCache: boolean;
   volatile: boolean;
+  trackInputChanges: boolean;
 }
 ```
 
@@ -153,7 +154,17 @@ interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
 
 ```ts
 interface CallbackObject {
-  build(): Promise<void> | void;
+  build(buildChangeObject?: BuildChangeObject): Promise<void> | void;
+}
+```
+
+---
+
+### BuildChangeObject
+
+```ts
+interface BuildChangeObject {
+  changedNodes: boolean[];
 }
 ```
 
