@@ -121,6 +121,15 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
    */
   getCallbackObject(): CallbackObject;
 
+
+  /**
+   * This method gets called if the fsFacade flag is set. This method sets the `input` and `output` Proxy to the `fs`
+   * operations which enables plugin developers to call `this.input.readFileSync('foo.txt', 'utf-8');` and
+   * `this.output.writeFileSync('foo.log', 'sample')`. The inputPaths and outputPath gets automatically gets attached to the
+   * filename passed in.
+   */
+  setFSFacade(): void;
+
   /**
     If false, then between rebuilds, the Builder will delete the outputPath
     directory recursively and recreate it as an empty directory. If true,
@@ -133,18 +142,24 @@ export interface TransformNodeInfo extends NodeInfoCommon<"transform"> {
     will be created and its path will be available as this.cachePath.
    */
   needsCache: boolean;
-  
+
   /**
-   If true, memoization will not be applied and the build method will always be 
+   If true, memoization will not be applied and the build method will always be
    called regardless if the inputNodes have changed. Defaults to false.
   */
   volatile: boolean;
-  
+
  /**
    If true, a change object will be passed to the build method which contains
    information about which input has changed since the last build. Defaults to false.
   */
   trackInputChanges: boolean;
+
+  /**
+   * If true, Proxy to fs is enabled to provided to plugins to perform all file operations by just using
+   * plugin.input.readFileSync/plugin.output.writeFileSync. Defaults to false.
+   */
+  fsFacade: boolean;
 }
 
 /**
